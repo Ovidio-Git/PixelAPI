@@ -1,0 +1,23 @@
+{
+  "name": "pixelapi",
+  "version": "1.0.0",
+  "description": "api pixelart pictures",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pixelart",
+    "docker",
+    "api",
+    "express",
+    "nodejs"
+  ],
+  "author": "Ovidio Andrade",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongodb": "^4.2.2",
+    "nodemon": "^2.0.15"
+  }
+}

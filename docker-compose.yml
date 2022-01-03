@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+
+  app:
+    build: .
+    image: pixelimage:1.0.0
+    restart: always
+    container_name: PixelApi
+    depends_on:
+      - mongo
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+
+  mongo:
+    image: mongo:4.4.6
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
