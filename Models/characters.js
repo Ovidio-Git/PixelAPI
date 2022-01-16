@@ -7,7 +7,7 @@ const CharacterSchema = new Schema({
     aka: {type:String, required:true},
     gender: {type:String, default:undefined},
     superpower: String,
-    age: Number,
+    age: {type: Number, validate(value) { if (value < 0) throw new Error("Negative age are not real");}},
     residenceplace: String,
     side: {type:String, required:true},
     image: String,
