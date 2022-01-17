@@ -30,14 +30,14 @@ app.get('/', (request, response) => {
     response.json({"Response": "Welcome to DataPixel API"});
 });
 app.get('/registersinventory', (request, response) => {
-    var dataResponse;
-    try {
-        dataResponse = modelRegisters.find({});
-    } catch (err) {
-        response.status(500).send(err);
-        
-    }
-    response.json(dataResponse)
+        modelRegisters.find({}).exec(function(err, dataResponse) {
+        if (err){
+            response.status(500).send(err);
+        }
+        else{
+            response.send(dataResponse);
+        }
+    })
 });
 
 
