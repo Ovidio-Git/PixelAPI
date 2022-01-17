@@ -1,7 +1,7 @@
 require('./database');
 const express = require('express');
 const app     = express();
-const models  = require('./Models/characters');
+const modelRegisters  = require('./Models/registers');
 const bp      = require('body-parser');
 const port    = 3000;
 
@@ -14,16 +14,14 @@ app.use(bp.json());
 
 // CREATE 
 app.post('/inventory', (request, response) => {
-    const instanceCharacter = new models.character(request.body);
+    const instanceRegisters = new modelRegisters(request.body);
     try {
-        instanceCharacter.save();
+        instanceRegisters.save();
     } catch (err) {
-        console.log("[ERROR] Data not inserted in collection");
-        console.log(err);
-        response.status(500).send(error);
+        response.status(500).send(err);
     }
     response.json({"Response": "Data inseted in character collection"});
-    console.log("Data inserted");
+    console.log("[OK] Data inserted");
     console.log(request.body);
 });
 
@@ -31,22 +29,29 @@ app.post('/inventory', (request, response) => {
 app.get('/', (request, response) => {
     response.json({"Response": "Welcome to DataPixel API"});
 });
-app.get('/', (request, response) => {
-    const instanceCharacter = new models.character();
+app.get('/registersinventory', (request, response) => {
+    var dataResponse;
+    try {
+        dataResponse = modelRegisters.find({});
+    } catch (err) {
+        response.status(500).send(err);
+        
+    }
+    response.json(dataResponse)
 });
 
 
 
 // UPDATE
 app.put('/', (request, response) => {
-    const instanceCharacter = new models.character();
+    const instanceRegisters = new modelRegisters();
 });
 
 
 // DELETE
 app.delete('/', (request, response) => {
-    const instance = new models.character();
-});
+    const instanceRegisters = new modelRegisters();
+}); 
 
 
 // SERVER UP
