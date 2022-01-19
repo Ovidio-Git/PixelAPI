@@ -18,21 +18,22 @@ app.post('/inventory', (request, response) => {
     try {
         instanceRegisters.save();
     } catch (err) {
-        response.status(500).send(err);
+        response.status(500).send({"Response" : "Bug found", "Bug details" : err});
     }
-    response.json({"Response": "Data inseted in character collection"});
+    response.send({"Response": "Data inseted in character collection"});
     console.log("[OK] Data inserted");
     console.log(request.body);
 });
 
+
 // READ
 app.get('/', (request, response) => {
-    response.json({"Response": "Welcome to DataPixel API"});
+    response.send({"Response": "Welcome to DataPixel API"});
 });
 app.get('/registersinventory', (request, response) => {
         modelRegisters.find({}).exec(function(err, dataResponse) {
         if (err){
-            response.status(500).send(err);
+            response.status(500).send({"Response" : "Bug found", "Bug details" : err});
         }
         else{
             response.send(dataResponse);
@@ -42,10 +43,25 @@ app.get('/registersinventory', (request, response) => {
 
 
 
+
 // UPDATE
-app.put('/', (request, response) => {
-    const instanceRegisters = new modelRegisters();
+app.put('/inventory/:id', (request, response) => {
+
+    try {
+        modelRegisters.findOneAndUpdate({"_id": request.params.id}, request.body).then(data => {console.log("[PROCESS] Updating data")}).catch(err => console.error(err));
+    } catch (err) {
+        //response.status(500).json({"Response" : "Bug found", "Bug details" : er});
+    }
+    modelRegisters.find({"_id": request.params.id}).exec(function(err, dataResponse) {
+        if (err){
+            response.status(500).send({"Response" : "Bug found", "Bug details" : err});
+        }
+        else{
+            response.send({"Response" : " Updated data", "Updated resgister" : dataResponse});
+        }
+    })
 });
+
 
 
 // DELETE
