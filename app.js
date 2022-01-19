@@ -20,7 +20,7 @@ app.post('/inventory', (request, response) => {
     } catch (err) {
         response.status(500).send({"Response" : "Bug found", "Bug details" : err});
     }
-    response.send({"Response": "Data inserted in character collection"});
+    response.send({"Response" : "Sucesss", "Response details" : "Data inserted in character collection"});
     console.log("[OK] Data inserted");
     console.log(request.body);
 });
@@ -28,18 +28,43 @@ app.post('/inventory', (request, response) => {
 
 // READ
 app.get('/', (request, response) => {
-    response.send({"Response": "Welcome to DataPixel API"});
+    response.send({"Response" : "Sucesss", "Response details" : "Welcome to DataPixel API"});
 });
+
 app.get('/registersinventory', (request, response) => {
         modelRegisters.find({}).exec(function(err, dataResponse) {
         if (err){
             response.status(500).send({"Response" : "Bug found", "Bug details" : err});
         }
         else{
-            response.send(dataResponse);
+            response.send({"Response" : "Sucesss", "Response details" : dataResponse});
         }
     })
 });
+
+app.get('/inventory/:filter', (request, response) => {
+    modelRegisters.find({}).distinct(request.params.filter).exec(function(err, dataResponse) {
+        if (err){
+            response.status(500).send({"Response" : "Bug found", "Bug details" : err});
+        }
+        else{
+            response.send({"Response" : "Sucesss", "Response details" : dataResponse});
+        }
+    })
+});
+
+app.get('/inventory/animation/:option', (request, response) => {
+    const conversorString = {"yes" : true, "not":false}
+    modelRegisters.find({"animation": conversorString[request.params.option]}).exec(function(err, dataResponse) {
+        if (err){
+            response.status(500).send({"Response" : "Bug found", "Bug details" : err});
+        }
+        else{
+            response.send({"Response" : "Sucesss", "Response details" : dataResponse});
+        }
+    })
+});
+
 
 
 
