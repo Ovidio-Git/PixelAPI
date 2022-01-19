@@ -20,7 +20,7 @@ app.post('/inventory', (request, response) => {
     } catch (err) {
         response.status(500).send({"Response" : "Bug found", "Bug details" : err});
     }
-    response.send({"Response": "Data inseted in character collection"});
+    response.send({"Response": "Data inserted in character collection"});
     console.log("[OK] Data inserted");
     console.log(request.body);
 });
@@ -46,12 +46,12 @@ app.get('/registersinventory', (request, response) => {
 
 // UPDATE
 app.put('/inventory/:id', (request, response) => {
-
     try {
         modelRegisters.findOneAndUpdate({"_id": request.params.id}, request.body).then(data => {console.log("[PROCESS] Updating data")}).catch(err => console.error(err));
     } catch (err) {
-        //response.status(500).json({"Response" : "Bug found", "Bug details" : er});
+        response.status(500).json({"Response" : "Bug found", "Bug details" : er});
     }
+    console.log("[OK] Succesful process")
     modelRegisters.find({"_id": request.params.id}).exec(function(err, dataResponse) {
         if (err){
             response.status(500).send({"Response" : "Bug found", "Bug details" : err});
@@ -65,9 +65,14 @@ app.put('/inventory/:id', (request, response) => {
 
 
 // DELETE
-app.delete('/', (request, response) => {
-    const instanceRegisters = new modelRegisters();
-}); 
+app.delete('/inventory/:id', (request, response) => {
+    try {
+        modelRegisters.findOneAndDelete({"_id": request.params.id}, request.body).then(data => {console.log("[PROCESS] Deleting data\n" + data)}).catch(err => console.error(err));
+    } catch (err) {
+        response.status(500).json({"Response" : "Bug found", "Bug details" : er});
+    }
+    response.send({"Response" : "Deleted data"})
+});
 
 
 // SERVER UP
